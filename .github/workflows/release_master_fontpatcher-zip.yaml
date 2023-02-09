@@ -3,7 +3,7 @@ name: Release font patcher from master
 on:
   create:
   push:
-    branches: master
+    #branches: master
     paths:
       - font-patcher
       - src/glyphs/**
@@ -43,9 +43,9 @@ jobs:
     - id: updated-or-not
       run: |
         if zipcmp archives/FontPatcher.zip ./FontPatcher.zip ; then
-          echo "updated=true" >> $GITHUB_OUTPUT
+          echo "::set-output name=updated::true"
         else
-          echo "updated=false" >> $GITHUB_OUTPUT
+          echo "::set-output name=updated::false"
         fi
     - run: cp archives/FontPatcher.zip . -f
     - uses: EndBug/add-and-commit@v9
