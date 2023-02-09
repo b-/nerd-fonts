@@ -138,7 +138,11 @@ implode() {
     # $3... are the elements to join
     local retname=$1 sep=$2 ret=$3
     shift 3 || shift $(($#))
-    printf -v "$retname" "%s" "$ret${*/#/$sep}"
+    while [ $# -gt 0 ]; do
+        ret=$ret$sep$1
+        shift
+    done
+    printf -v "$retname" "%s" "$ret"
 }
 find_include=
 find_exclude=
@@ -179,7 +183,7 @@ implode find_dirs "\" \"" "${nerdfonts_dirs[@]}"
 find_dirs="\"$find_dirs\""
 
 # Put it all together into the find command we want
-find_command="find $find_dirs \\( \\( -name '*.[o,t]tf' -or -name '*.pcf.gz' \\) $find_include $find_exclude \\) -type f -print0"
+find_command="find $find_dirs \\( \\( -name '*.[ot]tf' -or -name '*.pcf.gz' \\) $find_include $find_exclude \\) -type f -print0"
 
 # Find all the font files and store in array
 files=()

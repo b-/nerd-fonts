@@ -9,7 +9,7 @@
 
 [Releases][release]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Fonts](#字體包)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Font Patcher](#font-patcher)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Wiki Documentation][wiki]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Stickers][stickers]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[VimDevIcons][vim-devicons]
 
-[![GitHub release][img-version-badge]][repo] [![Gitter][img-gitter-badge]][gitter] [![Build Status][img-travis-ci]][travis-ci] [![Code of Conduct][coc-badge]][coc] [![PRs Welcome][prs-badge]][prs] <a href="#patched-fonts" title=""><img src="https://raw.githubusercontent.com/wiki/ryanoasis/nerd-fonts/images/faux-shield-badge-os-logos.svg?sanitize=true" alt="Nerd Fonts - OS Support"></a> [![Twitter][twitter-badge]][twitter-intent]
+[![GitHub release][img-version-badge]][repo] [![Gitter][img-gitter-badge]][gitter] [![Code of Conduct][coc-badge]][coc] [![PRs Welcome][prs-badge]][prs] <a href="#patched-fonts" title=""><img src="https://raw.githubusercontent.com/wiki/ryanoasis/nerd-fonts/images/faux-shield-badge-os-logos.svg?sanitize=true" alt="Nerd Fonts - OS Support"></a> [![Twitter][twitter-badge]][twitter-intent]
 
 </div>
 
@@ -39,7 +39,7 @@
 - [**4 - Homebrew Fonts (macOS (OS X))**](#選項4-homebrew-字體)
 - [**5 - 複製 Repo**](#選項5-複製-repo)
 - [**6 - Ad Hoc Curl 下載**](#選項6-ad-hoc-curl-下載)
-- [**7 - Arch User Repository (AUR) (Arch Linux)**](#選項7-非官方-arch-user-repository-aur)
+- [**7 - Arch Community Repository (Arch Linux)**](#選項7-非官方-arch-community-repository)
 - [**8 - 打包你的個人字體**](#選項8-打包你的個人字體)
 
 [**特徵**](#特徵)
@@ -80,17 +80,15 @@ _如果你..._
 - `選項 4.` 是**macOS**的使用者，並且想要使用**Homebrew**，請見 [Homebrew Fonts](#選項4-homebrew-字體)
 - `選項 5.` 想要 **完全控制**，請見 [複製這個 repo](#選項5-複製-repo)
 - `選項 6.` 想要使用 **`curl` command** 或者使用 **scripts**，請見 [Ad Hoc Curl 下載](#選項6-ad-hoc-curl-下載)
-- `選項 7.` 是**Arch Linux**的使用者，並且想要使用**AUR packages**，請見 [Unofficial Arch User Repositories](#選項7-非官方-arch-user-repository-aur)
+- `選項 7.` 是**Arch Linux**的使用者，並且想要使用**Community packages**，請見 [Arch Community Repositories](#選項7-非官方-arch-community-repository)
 - `選項 8.` 想要打包你自訂的字體，請見 [字體包](#選項8-打包你的個人字體)
-
-## 特徵
 
 - [FontForge Python script](#font-patcher) 可以打包任何字體
   - 包括建立**Monospaced (fixed-pitch, fixed-width)** _或者_ **double-width (non-monospaced)** 字形
   - 更多詳情請見 [**Font Patcher**](#font-patcher) 段落
 - **`51`** 已經 [打包了字體家族](#字體包)
-- Over **`1,444,400`** 獨立的 組合/變型 字體 [(更多詳情)](#組合)
-- Over **`2,824`** 字形/圖示 組合 [(更多詳情)](#組合)
+- Over **`1,571,470`** 獨立的 組合/變型 字體 [(更多詳情)](#組合)
+- Over **`9,000`** 字形/圖示 組合 [(更多詳情)](#組合)
   - 當前的字形集包括： [Powerline with Extra Symbols][ryanoasis-powerline-extra-symbols], [Font Awesome][font-awesome], [Material Design Icons][font-material-design-icons], [Weather][font-weather], [Devicons][vorillaz-devicons], [Octicons][octicons], [Font Logos][font-logos] (Formerly Font Linux), [Pomicons][gabrielelana-pomicons], [Codeicons][codicons]
 - 每種字體的**Monospaced (fixed-pitch, fixed-width)** _和_ **double-width (non-monospaced)** 版本
   - 這指的是 Nerd Font 字形本身，並不一定需要將字體作為一個整體考慮
@@ -254,7 +252,7 @@ _註_: **Requires cloning** the repo as of now
 
 ```sh
 brew tap caskroom/fonts
-brew install --cask font-hack-nerd-font
+brew install font-hack-nerd-font
 ```
 
 ### `選項5: 複製 Repo`
@@ -296,28 +294,10 @@ _註:_ deprecated alternative paths: `~/.fonts`
 cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/HEAD/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 ```
 
-### `選項7: 非官方 Arch User Repository (AUR)`
+### `選項7: 非官方 Arch Community Repository`
 
-> 適用於 **Arch Linux** 下使用 **AUR packages**的情況
-
-下列字體可以在 Arch Linux 透過 [AUR packages](https://aur.archlinux.org/) 下載：
-
-- [Nerd Fonts Complete Release (double-width)](https://aur.archlinux.org/packages/nerd-fonts-complete/)
-- [Nerd Fonts Complete Release (single-width) (out of date)](https://aur.archlinux.org/packages/nerd-fonts-complete-mono-glyphs/)
-- [Nerd Fonts Complete Git (has always the newest fixes)](https://aur.archlinux.org/packages/nerd-fonts-git/)
-
-- [Nerd Fonts Anonymous Pro](https://aur.archlinux.org/packages/nerd-fonts-anonymous-pro/)
-- [Nerd Fonts DejaVu Complete](https://aur.archlinux.org/packages/nerd-fonts-dejavu-complete/)
-- [Nerd Fonts Fira Code](https://aur.archlinux.org/packages/nerd-fonts-fira-code/)
-- [Nerd Fonts Go Mono](https://aur.archlinux.org/packages/nerd-fonts-go-mono/)
-- [Nerd Fonts Hack](https://archlinux.org/packages/community/any/ttf-hack-nerd/)
-- [Nerd Fonts Inconsolata](https://aur.archlinux.org/packages/nerd-fonts-inconsolata/)
-- [Nerd Fonts Jetbrains Mono](https://aur.archlinux.org/packages/nerd-fonts-jetbrains-mono)
-- [Nerd Fonts Liberation Mono](https://aur.archlinux.org/packages/nerd-fonts-liberation-mono/)
-- [Nerd Fonts Noto](https://aur.archlinux.org/packages/nerd-fonts-noto/)
-- [Nerd Fonts Source Code Pro Complete](https://aur.archlinux.org/packages/nerd-fonts-source-code-pro/)
-- [Nerd Fonts Terminus](https://aur.archlinux.org/packages/nerd-fonts-terminus/)
-- [Nerd Fonts Victor Mono](https://aur.archlinux.org/packages/nerd-fonts-victor-mono)
+Most fonts are available via [Arch Community packages](https://archlinux.org/packages/?sort=&repo=Community&q=-nerd).
+Some special packages are [in AUR](https://aur.archlinux.org/packages?K=nerd-fonts-&outdated=off).
 
 列表尚未完成，但你可以[在這邊找到完整的列表](https://aur.archlinux.org/packages?K=nerd-fonts-&outdated=off)。
 
@@ -543,7 +523,6 @@ Repo References
 [repo]: https://github.com/ryanoasis/nerd-fonts
 [gitter]: https://gitter.im/ryanoasis/nerd-fonts
 [code-climate]: https://codeclimate.com/github/ryanoasis/nerd-fonts
-[travis-ci]: https://travis-ci.org/ryanoasis/nerd-fonts
 [twitter-intent]: https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fryanoasis%2Fnerd-fonts&via=%40nerdfonts&text=Nerd%20Fonts%20-%20Iconic%20font%20aggregator%2C%20collection%2C%20and%20patcher&hashtags=iconfont%20font%20github
 
 <!--
@@ -563,7 +542,6 @@ Link References
 [img-version-badge]: https://img.shields.io/github/release/ryanoasis/nerd-fonts.svg?style=for-the-badge
 [img-gitter-badge]: https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=for-the-badge
 [img-code-climate-badge]: https://img.shields.io/codeclimate/issues/ryanoasis/nerd-fonts.svg?style=for-the-badge
-[img-travis-ci]: https://img.shields.io/travis/ryanoasis/nerd-fonts.svg?branch=master&style=for-the-badge
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=for-the-badge
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJzdmcyIiB3aWR0aD0iNjQ1IiBoZWlnaHQ9IjU4NSIgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPiA8ZyBpZD0ibGF5ZXIxIj4gIDxwYXRoIGlkPSJwYXRoMjQxNyIgZD0ibTI5Ny4zIDU1MC44N2MtMTMuNzc1LTE1LjQzNi00OC4xNzEtNDUuNTMtNzYuNDM1LTY2Ljg3NC04My43NDQtNjMuMjQyLTk1LjE0Mi03Mi4zOTQtMTI5LjE0LTEwMy43LTYyLjY4NS01Ny43Mi04OS4zMDYtMTE1LjcxLTg5LjIxNC0xOTQuMzQgMC4wNDQ1MTItMzguMzg0IDIuNjYwOC01My4xNzIgMTMuNDEtNzUuNzk3IDE4LjIzNy0zOC4zODYgNDUuMS02Ni45MDkgNzkuNDQ1LTg0LjM1NSAyNC4zMjUtMTIuMzU2IDM2LjMyMy0xNy44NDUgNzYuOTQ0LTE4LjA3IDQyLjQ5My0wLjIzNDgzIDUxLjQzOSA0LjcxOTcgNzYuNDM1IDE4LjQ1MiAzMC40MjUgMTYuNzE0IDYxLjc0IDUyLjQzNiA2OC4yMTMgNzcuODExbDMuOTk4MSAxNS42NzIgOS44NTk2LTIxLjU4NWM1NS43MTYtMTIxLjk3IDIzMy42LTEyMC4xNSAyOTUuNSAzLjAzMTYgMTkuNjM4IDM5LjA3NiAyMS43OTQgMTIyLjUxIDQuMzgwMSAxNjkuNTEtMjIuNzE1IDYxLjMwOS02NS4zOCAxMDguMDUtMTY0LjAxIDE3OS42OC02NC42ODEgNDYuOTc0LTEzNy44OCAxMTguMDUtMTQyLjk4IDEyOC4wMy01LjkxNTUgMTEuNTg4LTAuMjgyMTYgMS44MTU5LTI2LjQwOC0yNy40NjF6IiBmaWxsPSIjZGQ1MDRmIi8%2BIDwvZz48L3N2Zz4%3D
 [twitter-badge]: https://img.shields.io/twitter/url/http/shields.io.svg?style=for-the-badge&logo=twitter

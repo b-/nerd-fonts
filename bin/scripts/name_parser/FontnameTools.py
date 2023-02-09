@@ -176,7 +176,7 @@ class FontnameTools:
         ( '(m)plus',                    r'\1+'), # Added this, because they use a plus symbol :->
         ( 'Gohufont',                   r'GohuFont'), # Correct to CamelCase
         # Noone cares that font names starting with a digit are forbidden:
-        # ( '(3270)',                     r'Ibeam\1'),
+        ( 'IBM 3270',                   r'3270'), # for historical reasons and 'IBM' is a TM or something
     ]
 
     @staticmethod
@@ -227,7 +227,7 @@ class FontnameTools:
     @staticmethod
     def parse_font_name(name):
         """Expects a filename following the 'FontFamilyName-FontStyle' pattern and returns ... parts"""
-        name = re.sub(r'\bsemi-narrow\b', 'SemiNarrow', name, 1, re.IGNORECASE) # Just for "3270 Semi-Narrow" :-/
+        name = re.sub(r'\bsemi-condensed\b', 'SemiCondensed', name, 1, re.IGNORECASE) # Just for "3270 Semi-Condensed" :-/
         name = re.sub('[_\s]+', ' ', name)
         matches = re.match(r'([^-]+)(?:-(.*))?', name)
         familyname = FontnameTools.camel_casify(matches.group(1))

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Nerd Fonts Version: 2.3.0-RC
+# Nerd Fonts Version: 2.3.3
 # Script Version: 1.2.0
 # Generates CSS file for the font and cheat sheet code
 
@@ -19,7 +19,7 @@ cheat_sheet_head_file="./data/cheatsheet-head.txt"
 cheat_sheet_foot_file="./data/cheatsheet-foot.txt"
 
 LINE_PREFIX="# [Nerd Fonts] "
-version="2.3.0-RC"
+version="2.3.3"
 
 # clear files
 true > "$output_css_file" 2> /dev/null
@@ -83,9 +83,12 @@ for var in "${!i@}"; do
   {
     printf "  <div class=\"column\">"
     printf "\\n"
+    if [[ "$glyph_name" = mdi-* ]]; then
+      printf "    <span class=\"corner-red\"></span><span class=\"corner-text\">obsolete</span>\\n"
+    fi
     printf "    <div class=\"nf nf-%s center\"></div>" "$glyph_name"
     printf "\\n"
-    printf "    <div class=\"class-name\">nf-%s</div><div class=\"codepoint\">%s</div>" "$glyph_name" "$glyph_code"
+    printf "    <div class=\"class-name\">nf-%s</div><div title=\"Copy Hex Code to Clipboard\" class=\"codepoint\">%s</div>" "$glyph_name" "$glyph_code"
     printf "\\n"
     printf "  </div>"
     printf "\\n"

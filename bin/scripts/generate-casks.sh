@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Nerd Fonts Version: 2.3.0-RC
+# Nerd Fonts Version: 2.3.3
 # Script Version: 2.2.0
 #
 # Iterates over all [*] archived fonts
@@ -24,7 +24,7 @@
 # set -x
 set -e
 
-version="2.3.0-RC"
+version="2.3.3"
 homepage="https://github.com/ryanoasis/nerd-fonts"
 downloadarchive="https://github.com/ryanoasis/nerd-fonts/releases/download/v#{version}/"
 LINE_PREFIX="# [Nerd Fonts] "
@@ -233,7 +233,7 @@ while read -r filename; do
     FONTS=()
     while IFS= read -d $'\0' -r file; do
         FONTS=("${FONTS[@]}" "$file")
-    done < <(find "$searchdir" -type f -iwholename '*complete*' \( -iname '*.[o,t]tf' ! -wholename '*Windows Compatible*' \) -print0 | sort -z)
+    done < <(find "$searchdir" -type f -iwholename '*complete*' \( -iname '*.[ot]tf' ! -wholename '*Windows Compatible*' \) -print0 | sort -z)
 
     outputdir=$PWD/../casks
 

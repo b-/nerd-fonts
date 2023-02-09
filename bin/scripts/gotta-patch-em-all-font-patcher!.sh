@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Nerd Fonts Version: 2.3.0-RC
-# Script Version: 1.2.0
+# Nerd Fonts Version: 2.3.3
+# Script Version: 1.2.1
 
 # used for debugging
 # set -x
@@ -19,9 +19,8 @@ type fontforge >/dev/null 2>&1 || {
 sd="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 res1=$(date +%s)
-parent_dir="${sd}/../../"
+repo_root_dir=$(dirname $(dirname ${sd})) # two levels up (i.e. ../../)
 # Set source and target directories
-source_fonts_dir="${sd}/../../src/unpatched-fonts"
 like_pattern='.*\.\(otf\|ttf\|sfd\)'
 complete_variations_per_family=4
 font_typefaces_count=0
@@ -30,9 +29,10 @@ complete_variation_count=0
 total_variation_count=0
 total_count=0
 last_parent_dir=""
-unpatched_parent_dir="bin/scripts/../../src/unpatched-fonts"
+unpatched_parent_dir="src/unpatched-fonts"
 patched_parent_dir="patched-fonts"
 timestamp_parent_dir=${patched_parent_dir}
+source_fonts_dir="${repo_root_dir}/${unpatched_parent_dir}"
 max_parallel_process=8
 
 function activate_keeptime {
@@ -48,7 +48,7 @@ function activate_checkfont {
 }
 
 function activate_info {
-  info_only=$2
+  info_only=TRUE
   echo "${LINE_PREFIX} 'Info Only' option given, only generating font info (not patching)"
 }
 
@@ -77,6 +77,11 @@ function show_help {
   echo "          Process all font files that are in directory \"iosevka\""
 }
 
+function find_font_root {
+  # e.g. /a/b/c/nerd-fonts/src/unpatched-fonts/Meslo
+  sed -E "s|(${unpatched_parent_dir}/[^/]*).*|\1|" <<< "$1"
+}
+
 while getopts ":chijtv-:" option; do
   case "${option}" in
     c)
@@ -102,6 +107,9 @@ while getopts ":chijtv-:" option; do
         checkfont)
           activate_checkfont
           ;;
+        help)
+          show_help
+          exit 0;;
         info)
           activate_info
           ;;
@@ -213,6 +221,10 @@ function patch_font {
   then
     # shellcheck source=/dev/null
     source "$config_parent_dir/config.cfg"
+  elif [ -f "$(find_font_root $config_parent_dir)/config.cfg" ]
+  then
+    # shellcheck source=/dev/null
+    source "$(find_font_root $config_parent_dir)/config.cfg"
   fi
 
   if [ -f "$config_parent_dir/config.json" ]
@@ -226,7 +238,7 @@ function patch_font {
 
   if [ "$post_process" ]
   then
-    post_process="--postprocess=${parent_dir}/${post_process}"
+    post_process="--postprocess=${repo_root_dir}/${post_process}"
   else
     post_process=""
   fi
@@ -242,7 +254,7 @@ function patch_font {
     combinations=$(printf "./font-patcher ${f##*/} %s\\n" {' --powerline',}{' --use-single-width-glyphs',}{' --windows',}{' --fontawesome',}{' --octicons',}{' --fontlogos',}{' --pomicons',}{' --powerlineextra',}{' --fontawesomeextension',}{' --powersymbols',}{' --weather',}{' --material',})
   fi
 
-  cd "$parent_dir" || {
+  cd "$repo_root_dir" || {
     echo >&2 "# Could not find project parent directory"
     exit 3
   }
@@ -295,6 +307,7 @@ function generate_info {
   fi
 
   # source the font config file if exists:
+  # fetches for example config_has_powerline, that we ignore anyhow :-}
   if [ -f "$config_dir/config.cfg" ]
   then
     # shellcheck source=/dev/null
@@ -303,6 +316,10 @@ function generate_info {
   then
     # shellcheck source=/dev/null
     source "$config_parent_dir/config.cfg"
+  elif [ -f "$(find_font_root $config_parent_dir)/config.cfg" ]
+  then
+    # shellcheck source=/dev/null
+    source "$(find_font_root $config_parent_dir)/config.cfg"
   fi
 
   if [ "$config_has_powerline" -gt 0 ]
@@ -327,19 +344,15 @@ function generate_info {
     generate_readme "$patched_font_dir.." 0
   fi
 
-  echo "$LINE_PREFIX * Adding 'Possible Combinations' section"
-  generate_readme "$patched_font_dir" 1
+  # echo "$LINE_PREFIX * Adding 'Possible Combinations' section"
+  # generate_readme "$patched_font_dir" 1
+  generate_readme "$patched_font_dir" 0
   echo "$LINE_PREFIX * Copying license files"
 
-  if [ $is_unpatched_fonts_root == "0" ];
-  then
-    # if we are not at the unpatched fonts root, copy all license from config parent dir
-    copy_license "$config_parent_dir" "$patched_font_dir"
-  else
-    # otherwise we nedd to copy files from the config dir itself
-    copy_license "$config_dir" "$patched_font_dir"
-  fi
-
+  # Copy 'all' license files found in the complete font's source tree
+  # into the destination. This will overwrite all same-names files
+  # so make sure all licenses of one fontface are identical
+  copy_license "$(find_font_root $config_dir)" "$patched_font_dir"
 
   last_parent_dir=$config_parent_dir
   total_variation_count=$((total_variation_count+combination_count))
@@ -358,8 +371,9 @@ function copy_license {
 
   while IFS= read -d $'\0' -r license_file ; do
     # cp "$license_file" "$dest" # makes archiving multiple harder when we junk the paths for the archive
-    cp "$license_file" "$dest/complete"
-  done < <(find "$src" -iregex ".*\(licen[c,s]e\|ofl\).*" -type f -print0)
+    [[ -d "$dest/complete" ]] || mkdir -p "$dest/complete"
+    cp "$license_file" -t "$dest/complete"
+  done < <(find "$src" -iregex ".*\(licen[cs]e\|ofl\).*" -type f -print0)
 }
 
 # Re-generate all the readmes
@@ -381,11 +395,10 @@ function generate_readme {
     echo "# looked for: $font_info"
   fi
 
-  cat "$parent_dir/src/readme-per-directory-variations.md" >> "$combinations_filename"
-
   if [ "$generate_combinations" == 1 ];
   then
     # add to the file
+    cat "$repo_root_dir/src/readme-per-directory-variations.md" >> "$combinations_filename"
     {
       printf "\`\`\`sh"
       printf "\\n# %s Possible Combinations:\\n" "$combination_count"
@@ -412,7 +425,7 @@ then
       # some of the source font files in that directory.
       last_source_dir=${current_source_dir}
       num_to_patch=$(find "${current_source_dir}" -iregex ${like_pattern} -type f | wc -l)
-      num_existing=$(find "${current_source_dir}" -iname "*.[o,t]tf" -o -iname "*.sfd" -type f | wc -l)
+      num_existing=$(find "${current_source_dir}" -iname "*.[ot]tf" -o -iname "*.sfd" -type f | wc -l)
       if [ ${num_to_patch} -eq ${num_existing} ]
       then
         purge_destination="TRUE"
