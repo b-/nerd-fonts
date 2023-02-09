@@ -26,6 +26,7 @@ jobs:
       uses: snow-actions/sparse-checkout@v1.2.0
       with:
         patterns: |
+          FontPatcher.zip
           font-patcher
           src/glyphs
           src/archive-font-patcher-readme.md
@@ -43,14 +44,25 @@ jobs:
     - id: updated-or-not
       run: |
         if zipcmp archives/FontPatcher.zip ./FontPatcher.zip ; then
-          echo "::set-output name=updated::true"
+          echo "updated=false" | tee -a $GITHUB_OUTPUT
         else
-          echo "::set-output name=updated::false"
+          echo "updated=true" | tee -a $GITHUB_OUTPUT
         fi
+#  release:
+#    runs-on: ubuntu-latest
+#    needs: build
+#    if: ${{needs.build.outputs.changed}} == 'true'
+#    #needs to be quoted
+#    steps:
+#    - name: Grab the current zip from the repo
+#      uses: snow-actions/sparse-checkout@v1.2.0
+#      with:
+#        patterns: |
+#          FontPatcher.zip
     - run: cp archives/FontPatcher.zip . -f
     - uses: EndBug/add-and-commit@v9
       if: steps.updated-or-not.outputs.updated == 'true'
-      # 'true' needs to be quoted above, because it's technically a string
+      #needs to be quoted
       with:
         fetch: false
         add: "FontPatcher.zip"
